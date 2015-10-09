@@ -10,6 +10,7 @@ primary key(student_id)
 
 create table course(
 course_id int(6) zerofill not null auto_increment,
+subject varchar(255),
 course_name varchar(255),
 teacher_last_name varchar(255),
 period int,

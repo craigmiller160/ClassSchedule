@@ -12,10 +12,10 @@
 
 	<!-- Data Source for pooling connections to the database -->
 	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
-    	<property name="driverClassName" value="${db.driverClassName}"/>
-    	<property name="url" value="${db.url}"/>
-    	<property name="username"  value="${db.username}"/>
-    	<property name="password" value="${db.password}"/>
+    	<property name="driverClassName" value="${driverClassName}"/>
+    	<property name="url" value="${url}"/>
+    	<property name="username"  value="${username}"/>
+    	<property name="password" value="${password}"/>
     	<property name="initialSize" value="4"/>
     	<property name="maxTotal" value="8"/>
     </bean>
@@ -31,7 +31,7 @@
     </bean>
     
     <!-- SessionFactory for generating database connection sessions -->
-    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean" destroy-method="close">
     	<property name="dataSource" ref="dataSource"/>
 		<property name="hibernateProperties">
 			<props>
@@ -51,6 +51,22 @@
     <!-- Hibernate TransactionManager for controlling database transactions -->
     <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    
+    <!-- Student DAO Object -->
+    <bean id="studentDao" class="io.craigmiller160.schedule.persist.HibernateStudentDao">
+    	<constructor-arg ref="sessionFactory"/>
+    </bean>
+    
+    <!-- Course DAO Object -->
+    <bean id="courseDao" class="io.craigmiller160.schedule.persist.HibernateCourseDao">
+    	<constructor-arg ref="sessionFactory"/>
+    </bean>
+    
+    <!-- Data Service Object -->
+    <bean id="scheduleService" class="io.craigmiller160.schedule.persist.ScheduleServiceImpl">
+    	<constructor-arg ref="studentDao"/>
+    	<constructor-arg ref="courseDao"/>
     </bean>
 
 </beans>

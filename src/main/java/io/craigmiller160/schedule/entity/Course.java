@@ -21,6 +21,8 @@ public class Course {
 	@Column (name="course_id")
 	private int courseId;
 	
+	private String subject;
+	
 	@Column (name="course_name")
 	private String courseName;
 	
@@ -29,7 +31,7 @@ public class Course {
 	
 	private int period;
 	
-	@ManyToMany (mappedBy="studentId") //TODO not sure if cascading is appropriate here or not
+	@ManyToMany () //TODO not sure if cascading is appropriate here or not
 	@JoinTable (name="schedule_join", 
 				joinColumns={@JoinColumn (name="student_id")}, 
 				inverseJoinColumns={@JoinColumn (name="course_id")})
@@ -43,6 +45,14 @@ public class Course {
 		this.period = period;
 	}
 	
+	public String getSubject() {
+		return subject;
+	}
+
+	public void setSubject(String subject) {
+		this.subject = subject;
+	}
+
 	public int getCourseId() {
 		return courseId;
 	}

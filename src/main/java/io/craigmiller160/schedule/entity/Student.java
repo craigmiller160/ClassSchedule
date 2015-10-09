@@ -40,7 +40,7 @@ public class Student {
 	
 	private int grade;
 	
-	@ManyToMany (mappedBy="courseId") //TODO not sure if cascading is appropriate here or not
+	@ManyToMany () //TODO not sure if cascading is appropriate here or not
 	@JoinTable (name="schedule_join", 
 				joinColumns={@JoinColumn (name="student_id")}, 
 				inverseJoinColumns={@JoinColumn (name="course_id")})
@@ -119,5 +119,11 @@ public class Student {
 		this.gender = gender;
 	}
 	
+	@Override
+	public String toString(){
+		return firstName + " " + lastName;
+	}
+	
+	//TODO should override hashCode & equals too
 	
 }
