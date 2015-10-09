@@ -63,5 +63,9 @@ public class HibernateCourseDao implements CourseDao {
 					"Method is only compatible with MySQL database");
 		}
 	}
+	
+	public void closeSessionFactory(){
+		sessionFactory.close();
+	}
 
 }
