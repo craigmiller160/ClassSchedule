@@ -19,7 +19,7 @@ import io.craigmiller160.schedule.util.LocalDateConverter;
 
 @Entity
 @Table (name="student")
-public class Student {
+public class Student implements Comparable<Student>{
 
 	@Id
 	@GeneratedValue (strategy=GenerationType.AUTO)
@@ -45,6 +45,7 @@ public class Student {
 				joinColumns={@JoinColumn (name="student_id")}, 
 				inverseJoinColumns={@JoinColumn (name="course_id")})
 	private List<Course> courses = new ArrayList<>();
+	//TODO might want to change this to be a set... debating this
 	
 	public Student() {}
 	
@@ -124,6 +125,25 @@ public class Student {
 		return firstName + " " + lastName;
 	}
 	
-	//TODO should override hashCode & equals too
+	@Override
+	public int hashCode(){
+		return studentId;
+	}
+	
+	@Override
+	public boolean equals(Object obj){
+		if(obj instanceof Student){
+			return ((Student) obj).studentId == this.studentId;
+		}
+		else{
+			return false;
+		}
+	}
+
+	@Override
+	public int compareTo(Student student) {
+		return ((Integer) this.studentId)
+				.compareTo((Integer) student.studentId);
+	}
 	
 }

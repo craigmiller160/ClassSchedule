@@ -14,7 +14,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table (name="course")
-public class Course {
+public class Course implements Comparable<Course>{
 
 	@Id
 	@GeneratedValue (strategy=GenerationType.AUTO)
@@ -36,6 +36,7 @@ public class Course {
 				joinColumns={@JoinColumn (name="student_id")}, 
 				inverseJoinColumns={@JoinColumn (name="course_id")})
 	private List<Student> students;
+	//TODO might want to change this to be a set... debating this
 	
 	public Course() {}
 	
@@ -106,6 +107,27 @@ public class Course {
 	@Override
 	public String toString(){
 		return courseName;
+	}
+	
+	@Override
+	public int hashCode(){
+		return courseId;
+	}
+	
+	@Override
+	public boolean equals(Object obj){
+		if(obj instanceof Course){
+			return ((Course) obj).courseId == this.courseId;
+		}
+		else{
+			return false;
+		}
+	}
+
+	@Override
+	public int compareTo(Course course) {
+		return ((Integer) this.courseId)
+				.compareTo((Integer) course.courseId);
 	}
 	
 }
