@@ -99,7 +99,13 @@ public class Course {
 	}
 	
 	public boolean removeStudent(Student student){
+		
 		return students.remove(student);
+	}
+	
+	@Override
+	public String toString(){
+		return courseName;
 	}
 	
 }

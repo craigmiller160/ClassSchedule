@@ -104,7 +104,15 @@ public class ScheduleServiceImpl implements ScheduleService {
 	}
 	
 	public void resetAutoIncrement(){
-		
+		if(studentDao instanceof HibernateStudentDao 
+				&& courseDao instanceof HibernateCourseDao){
+			((HibernateStudentDao) studentDao).resetAutoIncrement();
+			((HibernateCourseDao) courseDao).resetAutoIncrement();
+		}
+		else{
+			throw new UnsupportedOperationException(
+					"Only Hibernate DAO classes supported");
+		}
 	}
 
 }

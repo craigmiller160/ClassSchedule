@@ -6,6 +6,8 @@ import org.hibernate.FetchMode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.dialect.Dialect;
+import org.hibernate.dialect.MySQLDialect;
 
 import io.craigmiller160.schedule.entity.Student;
 
@@ -54,9 +56,16 @@ public class HibernateStudentDao implements StudentDao {
 	}
 	
 	public void resetAutoIncrement(){
-		sessionFactory.getCurrentSession()
+		Dialect dialect = Dialect.getDialect();
+		if(dialect instanceof MySQLDialect){
+			sessionFactory.getCurrentSession()
 			.createQuery("alter table student auto_increment = 1")
 			.executeUpdate();
+		}
+		else{
+			throw new UnsupportedOperationException(
+					"Method is only compatible with MySQL database");
+		}
 	}
 
 }
