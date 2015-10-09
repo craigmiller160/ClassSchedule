@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
@@ -40,8 +41,8 @@ public class Student implements Comparable<Student>{
 	
 	private int grade;
 	
-	@ManyToMany () //TODO not sure if cascading is appropriate here or not
-	@JoinTable (name="schedule_join", 
+	@ManyToMany (cascade=CascadeType.ALL) //TODO not sure if cascading is appropriate here or not
+	@JoinTable (name="student_course", 
 				joinColumns={@JoinColumn (name="student_id")}, 
 				inverseJoinColumns={@JoinColumn (name="course_id")})
 	private List<Course> courses = new ArrayList<>();

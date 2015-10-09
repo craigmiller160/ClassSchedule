@@ -2,6 +2,7 @@ package io.craigmiller160.schedule.entity;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -31,10 +32,7 @@ public class Course implements Comparable<Course>{
 	
 	private int period;
 	
-	@ManyToMany () //TODO not sure if cascading is appropriate here or not
-	@JoinTable (name="schedule_join", 
-				joinColumns={@JoinColumn (name="student_id")}, 
-				inverseJoinColumns={@JoinColumn (name="course_id")})
+	@ManyToMany (cascade=CascadeType.ALL, mappedBy="courses") //TODO not sure if cascading is appropriate here or not
 	private List<Student> students;
 	//TODO might want to change this to be a set... debating this
 	
