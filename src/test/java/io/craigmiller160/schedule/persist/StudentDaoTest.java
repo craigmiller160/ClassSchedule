@@ -22,6 +22,7 @@ public class StudentDaoTest extends TestCase{
 	private static final String UPDATE_FAIL = "Update Failed";
 	private static final String DELETE_FAIL = "Delete Failed";
 	
+	//TODO document how this class has the Spring dependencies
 	@Autowired
 	private StudentDao studentDao;
 	
