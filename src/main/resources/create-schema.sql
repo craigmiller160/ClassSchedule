@@ -17,7 +17,7 @@ period int,
 primary key(course_id)
 );
 
-create table schedule_join(
+create table student_course(
 student_id int(6) zerofill not null,
 course_id int(6) zerofill not null,
 foreign key(student_id) references student(student_id),

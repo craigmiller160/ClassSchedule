@@ -31,7 +31,7 @@
     </bean>
     
     <!-- SessionFactory for generating database connection sessions -->
-    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean" destroy-method="close">
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
     	<property name="dataSource" ref="dataSource"/>
 		<property name="hibernateProperties">
 			<props>
@@ -54,12 +54,14 @@
     </bean>
     
     <!-- Student DAO Object -->
-    <bean id="studentDao" class="io.craigmiller160.schedule.persist.HibernateStudentDao">
+    <bean id="studentDao" class="io.craigmiller160.schedule.persist.HibernateStudentDao"
+    	destroy-method="closeSessionFactory">
     	<constructor-arg ref="sessionFactory"/>
     </bean>
     
     <!-- Course DAO Object -->
-    <bean id="courseDao" class="io.craigmiller160.schedule.persist.HibernateCourseDao">
+    <bean id="courseDao" class="io.craigmiller160.schedule.persist.HibernateCourseDao" 
+    	destroy-method="closeSessionFactory">
     	<constructor-arg ref="sessionFactory"/>
     </bean>
     
