@@ -95,5 +95,16 @@ public class StudentDaoTest extends TestCase{
 		assertTrue("Students list less than 1", students.size() >= 1);
 		assertTrue("Students list doesn't contain student", students.contains(student));
 	}
+
+	@Override
+	protected void tearDown() throws Exception {
+		super.tearDown();
+		if(studentDao instanceof HibernateStudentDao){
+			((HibernateStudentDao) studentDao).resetAutoIncrement();
+		}
+		else{
+			throw new RuntimeException("Auto-Increment not reset");
+		}
+	}
 	
 }

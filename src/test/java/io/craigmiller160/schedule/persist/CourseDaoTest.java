@@ -90,4 +90,15 @@ public class CourseDaoTest extends TestCase{
 		assertTrue("Courses list doesn't contain course", courses.contains(course));
 	}
 	
+	@Override
+	protected void tearDown() throws Exception {
+		super.tearDown();
+		if(courseDao instanceof HibernateCourseDao){
+			((HibernateCourseDao) courseDao).resetAutoIncrement();
+		}
+		else{
+			throw new RuntimeException("Auto-Increment not reset");
+		}
+	}
+	
 }
