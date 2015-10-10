@@ -7,6 +7,8 @@
         http://www.springframework.org/schema/tx
        	http://www.springframework.org/schema/tx/spring-tx.xsd"> 
 
+<!-- THIS IS THE SPRING CONTEXT FOR ALL DATABASE/TRANSACTION RELATED BEANS -->
+
 	<!-- Sets the transaction manager to annotation-driven -->
 	<tx:annotation-driven transaction-manager="transactionManager"/>
 

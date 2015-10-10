@@ -5,9 +5,16 @@
 		http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" 
 		version="3.0">
 
+<!-- DEPLOYMENT DESCRIPTOR FOR CLASS SCHEDULE PROGRAM -->
+
+	<!-- Name to display for the application -->
 	<display-name>Class Schedule</display-name>
+	
+	<!-- Display these pages, in order of first found, when this application is accessed -->
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.htm</welcome-file>
 	</welcome-file-list>
 	
 	

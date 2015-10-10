@@ -11,28 +11,82 @@ import org.hibernate.dialect.MySQLDialect;
 
 import io.craigmiller160.schedule.entity.Student;
 
+/**
+ * An implementation of <tt>StudentDao</tt> using the
+ * <tt>Hibernate</tt> framework. This class depends
+ * on a <tt>Hibernate SessionFactory</tt> to generate
+ * the database sessions & connections. This class
+ * does NOT manage its own transactions, it will
+ * depend on a service layer class to handle that 
+ * functionality.
+ * <p>
+ * <b>THREAD SAFETY:</b> This class is thread-safe.
+ * It has no mutable state that could cause issues
+ * with multiple threads.
+ * 
+ * @author craig
+ * @version 1.0
+ */
 public class HibernateStudentDao implements StudentDao {
 
+	/**
+	 * The <tt>SessionFactory</tt> that this class uses
+	 * for connecting to the database.
+	 */
 	private final SessionFactory sessionFactory;
 	
+	/**
+	 * Create this DAO with the mandatory <tt>SessionFactory</tt>
+	 * that it requires. Passing null as this parameter will
+	 * cause this class to not be able to function.
+	 * 
+	 * @param sessionFactory the <tt>SessionFactory</tt> this class
+	 * needs to create database sessions.
+	 */
 	public HibernateStudentDao(SessionFactory sessionFactory){
 		this.sessionFactory = sessionFactory;
 	}
 	
+	/**
+	 * Get the <tt>SessionFactory</tt> used by this class
+	 * for database sessions.
+	 * 
+	 * @return the <tt>SessionFactory used by this class.
+	 * @throws NullPointerException if the <tt>SessionFactory</tt>
+	 * was set to null.
+	 */
 	public SessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * @throws HibernateException if the database operation fails.
+	 * @throws NullPointerException if the <tt>SessionFactory</tt>
+	 * was set to null.
+	 */
 	@Override
 	public void insertStudent(Student student) {
 		sessionFactory.getCurrentSession().save(student);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * @throws HibernateException if the database operation fails.
+	 * @throws NullPointerException if the <tt>SessionFactory</tt>
+	 * was set to null.
+	 */
 	@Override
 	public void updateStudent(Student student) {
 		sessionFactory.getCurrentSession().update(student);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * @throws HibernateException if the database operation fails.
+	 * @throws NullPointerException if the <tt>SessionFactory</tt>
+	 * was set to null.
+	 */
 	@Override
 	public Student getStudent(int studentId) {
 		Session session = sessionFactory.getCurrentSession();
@@ -42,6 +96,12 @@ public class HibernateStudentDao implements StudentDao {
 					.uniqueResult();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * @throws HibernateException if the database operation fails.
+	 * @throws NullPointerException if the <tt>SessionFactory</tt>
+	 * was set to null.
+	 */
 	@SuppressWarnings("unchecked") //Criteria.list() doesn't support generics
 	@Override
 	public List<Student> getAllStudents() {
@@ -50,11 +110,35 @@ public class HibernateStudentDao implements StudentDao {
 				.list();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * @throws HibernateException if the database operation fails.
+	 * @throws NullPointerException if the <tt>SessionFactory</tt>
+	 * was set to null.
+	 */
 	@Override
 	public void deleteStudent(Student student) {
 		sessionFactory.getCurrentSession().delete(student);
 	}
 	
+	/**
+	 * Reset the auto-increment counter on the database table
+	 * for the <tt>Student</tt> class. This will set the counter
+	 * generating ids to the next highest number based on the
+	 * records currently in the table. This is especially useful
+	 * during testing operations.
+	 * <p>
+	 * <b>NOTE:</b> This operation is only compatible with a 
+	 * MySQL database, as it uses MySQL-specific syntax. Attempting
+	 * to use it with a different database will cause an exception
+	 * to be thrown.
+	 * 
+	 * @throws HibernateException if the database operation fails.
+	 * @throws NullPointerException if the <tt>SessionFactory</tt>
+	 * was set to null.
+	 * @throws UnsupportedOperationException if this operation is
+	 * attempted with a database that's not MySQL. 
+	 */
 	public void resetAutoIncrement(){
 		Dialect dialect = Dialect.getDialect();
 		if(dialect instanceof MySQLDialect){
@@ -68,6 +152,14 @@ public class HibernateStudentDao implements StudentDao {
 		}
 	}
 	
+	/**
+	 * Close the <tt>SessionFactory</tt> when this class's work
+	 * is complete.
+	 * 
+	 * @throws HibernateException if the database operation fails.
+	 * @throws NullPointerException if the <tt>SessionFactory</tt>
+	 * was set to null.
+	 */
 	public void closeSessionFactory(){
 		sessionFactory.close();
 	}

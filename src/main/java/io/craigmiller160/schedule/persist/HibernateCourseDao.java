@@ -11,24 +11,82 @@ import org.hibernate.dialect.MySQLDialect;
 
 import io.craigmiller160.schedule.entity.Course;
 
+/**
+ * An implementation of <tt>CourseDao</tt> using the
+ * <tt>Hibernate</tt> framework. This class depends
+ * on a <tt>Hibernate SessionFactory</tt> to generate
+ * the database sessions & connections. This class
+ * does NOT manage its own transactions, it will
+ * depend on a service layer class to handle that 
+ * functionality.
+ * <p>
+ * <b>THREAD SAFETY:</b> This class is thread-safe.
+ * It has no mutable state that could cause issues
+ * with multiple threads.
+ * 
+ * @author craig
+ * @version 1.0
+ */
 public class HibernateCourseDao implements CourseDao {
 
+	/**
+	 * The <tt>SessionFactory</tt> that this class uses
+	 * for connecting to the database.
+	 */
 	private final SessionFactory sessionFactory;
 	
+	/**
+	 * Create this DAO with the mandatory <tt>SessionFactory</tt>
+	 * that it requires. Passing null as this parameter will
+	 * cause this class to not be able to function.
+	 * 
+	 * @param sessionFactory the <tt>SessionFactory</tt> this class
+	 * needs to create database sessions.
+	 */
 	public HibernateCourseDao(SessionFactory sessionFactory){
 		this.sessionFactory = sessionFactory;
 	}
 	
+	/**
+	 * Get the <tt>SessionFactory</tt> used by this class
+	 * for database sessions.
+	 * 
+	 * @return the <tt>SessionFactory used by this class.
+	 * @throws NullPointerException if the <tt>SessionFactory</tt>
+	 * was set to null.
+	 */
+	public SessionFactory getSessionFactory() {
+		return sessionFactory;
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 * @throws HibernateException if the database operation fails.
+	 * @throws NullPointerException if the <tt>SessionFactory</tt>
+	 * was set to null.
+	 */
 	@Override
 	public void insertCourse(Course course) {
 		sessionFactory.getCurrentSession().save(course);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * @throws HibernateException if the database operation fails.
+	 * @throws NullPointerException if the <tt>SessionFactory</tt>
+	 * was set to null.
+	 */
 	@Override
 	public void updateCourse(Course course) {
 		sessionFactory.getCurrentSession().update(course);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * @throws HibernateException if the database operation fails.
+	 * @throws NullPointerException if the <tt>SessionFactory</tt>
+	 * was set to null.
+	 */
 	@Override
 	public Course getCourse(int courseId) {
 		Session session = sessionFactory.getCurrentSession();
@@ -38,6 +96,12 @@ public class HibernateCourseDao implements CourseDao {
 					.uniqueResult();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * @throws HibernateException if the database operation fails.
+	 * @throws NullPointerException if the <tt>SessionFactory</tt>
+	 * was set to null.
+	 */
 	@SuppressWarnings("unchecked") //Criteria.list() doesn't support generics
 	@Override
 	public List<Course> getAllCourses() {
@@ -46,11 +110,28 @@ public class HibernateCourseDao implements CourseDao {
 				.list();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * @throws HibernateException if the database operation fails.
+	 * @throws NullPointerException if the <tt>SessionFactory</tt>
+	 * was set to null.
+	 */
 	@Override
 	public void deleteCourse(Course course) {
 		sessionFactory.getCurrentSession().delete(course);
 	}
 	
+	/**
+	 * Reset the auto-increment counter on the database table
+	 * for the <tt>Course</tt> class. This will set the counter
+	 * generating ids to the next highest number based on the
+	 * records currently in the table. This is especially useful
+	 * during testing operations.
+	 * 
+	 * @throws HibernateException if the database operation fails.
+	 * @throws NullPointerException if the <tt>SessionFactory</tt>
+	 * was set to null.
+	 */
 	public void resetAutoIncrement(){
 		Dialect dialect = Dialect.getDialect();
 		if(dialect instanceof MySQLDialect){
@@ -64,6 +145,14 @@ public class HibernateCourseDao implements CourseDao {
 		}
 	}
 	
+	/**
+	 * Close the <tt>SessionFactory</tt> when this class's work
+	 * is complete.
+	 * 
+	 * @throws HibernateException if the database operation fails.
+	 * @throws NullPointerException if the <tt>SessionFactory</tt>
+	 * was set to null.
+	 */
 	public void closeSessionFactory(){
 		sessionFactory.close();
 	}
