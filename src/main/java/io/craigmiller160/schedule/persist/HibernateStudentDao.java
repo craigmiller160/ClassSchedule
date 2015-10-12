@@ -8,6 +8,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.dialect.Dialect;
 import org.hibernate.dialect.MySQLDialect;
+import org.hibernate.engine.spi.SessionFactoryImplementor;
 
 import io.craigmiller160.schedule.entity.Student;
 
@@ -121,6 +122,7 @@ public class HibernateStudentDao implements StudentDao {
 		sessionFactory.getCurrentSession().delete(student);
 	}
 	
+	//TODO remove this
 	/**
 	 * Reset the auto-increment counter on the database table
 	 * for the <tt>Student</tt> class. This will set the counter
@@ -140,10 +142,10 @@ public class HibernateStudentDao implements StudentDao {
 	 * attempted with a database that's not MySQL. 
 	 */
 	public void resetAutoIncrement(){
-		Dialect dialect = Dialect.getDialect();
+		Dialect dialect = ((SessionFactoryImplementor) sessionFactory).getDialect();
 		if(dialect instanceof MySQLDialect){
 			sessionFactory.getCurrentSession()
-			.createQuery("alter table student auto_increment = 1")
+			.createSQLQuery("alter table student auto_increment = 1")
 			.executeUpdate();
 		}
 		else{

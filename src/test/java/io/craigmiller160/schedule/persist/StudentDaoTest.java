@@ -3,39 +3,101 @@ package io.craigmiller160.schedule.persist;
 import java.time.LocalDate;
 import java.util.List;
 
-import javax.transaction.Transactional;
-
+import org.junit.AfterClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
+import io.craigmiller160.schedule.context.AppContext;
 import io.craigmiller160.schedule.entity.Student;
 import junit.framework.TestCase;
 
+/**
+ * <tt>JUnit</tt> test case for the <tt>StudentDao</tt> class.
+ * This test case tests all the persistence operations of the 
+ * DAO. It uses <tt>Spring's</tt> <tt>SpringJUnit4ClassRunning</tt>
+ * class to ensure that all transactions are rolled back upon completion,
+ * thus ensuring the integrity of the underlying database. It performs 
+ * two tests to accomplish this:
+ * <p>
+ * <b>Course Operations:</b> Test the basic CRUD operations on 
+ * the student table of the database. Ensures <tt>Hibernate</tt> 
+ * can make the connection, modify and access the content, and
+ * that the mapping has been done accurately.
+ * <p>
+ * <b>List Operations:</b> Tests the ability to pull a list of
+ * all entities from the student table of the database. 
+ * <p>
+ * After the completion of its operations, a method is run to 
+ * reset the auto-increment counter on the underlying database.
+ * This prevents the tests from using up large numbers of values
+ * from the counter.
+ * 
+ * @author craig
+ * @version 1.0
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration ({"classpath:/test-context.xml"})
 public class StudentDaoTest extends TestCase{
 
+	/*
+	 * This class uses Spring annotations, rather than purely
+	 * xml based configuration like the other classes of this 
+	 * program. This is because the test cases are instantiated
+	 * differently than regular beans.
+	 */
+	
+	/**
+	 * Output message for the insert operation failing.
+	 */
 	private static final String INSERT_FAIL = "Insert Failed";
+	
+	/**
+	 * Output message for the update operation failing.
+	 */
 	private static final String UPDATE_FAIL = "Update Failed";
+	
+	/**
+	 * Output message for the delete operation failing.
+	 */
 	private static final String DELETE_FAIL = "Delete Failed";
 	
-	//TODO document how this class has the Spring dependencies
+	/**
+	 * The DAO object for the <tt>Student</tt> class.
+	 */
 	@Autowired
 	private StudentDao studentDao;
-	
+
+	/**
+	 * Get the DAO object for the <tt>Student</tt> class.
+	 * 
+	 * @return the DAO object for the <tt>Student</tt> class.
+	 */
 	public StudentDao getStudentDao() {
 		return studentDao;
 	}
 
+	/**
+	 * Set the DAO object for the <tt>Student</tt> class.
+	 * 
+	 * @param courseDao the DAO object for the <tt>Student</tt> class.
+	 */
 	public void setStudentDao(StudentDao studentDao) {
 		this.studentDao = studentDao;
 	}
 	
-	@Test
+	/**
+	 * Test the basic CRUD operations on 
+	 * the student table of the database. Ensures <tt>Hibernate</tt> 
+	 * can make the connection, modify and access the content, and
+	 * that the mapping has been done accurately.
+	 */
 	@Transactional
+	@Test
 	public void testStudentOperations(){
 		Student student = new Student();
 		setStudent1(student);
@@ -67,6 +129,12 @@ public class StudentDaoTest extends TestCase{
 		assertNull(DELETE_FAIL, student);
 	}
 	
+	/**
+	 * Set the fields of the <tt>Student</tt> object
+	 * to the first set of values.
+	 * 
+	 * @param course the <tt>Student</tt> object to set.
+	 */
 	private void setStudent1(Student student){
 		student.setFirstName("First");
 		student.setLastName("Last");
@@ -75,6 +143,12 @@ public class StudentDaoTest extends TestCase{
 		student.setGrade(1);
 	}
 	
+	/**
+	 * Set the fields of the <tt>Student</tt> object
+	 * to the second set of values.
+	 * 
+	 * @param course the <tt>Student</tt> object to set.
+	 */
 	private void setStudent2(Student student){
 		student.setFirstName("First2");
 		student.setLastName("Last2");
@@ -83,8 +157,12 @@ public class StudentDaoTest extends TestCase{
 		student.setGrade(2);
 	}
 	
-	@Test
+	/**
+	 * Tests the ability to pull a list of
+	 * all entities from the student table of the database. 
+	 */
 	@Transactional
+	@Test
 	public void testListOperation(){
 		Student student = new Student();
 		setStudent1(student);
@@ -95,16 +173,16 @@ public class StudentDaoTest extends TestCase{
 		assertTrue("Students list less than 1", students.size() >= 1);
 		assertTrue("Students list doesn't contain student", students.contains(student));
 	}
-
-	@Override
-	protected void tearDown() throws Exception {
-		super.tearDown();
-		if(studentDao instanceof HibernateStudentDao){
-			((HibernateStudentDao) studentDao).resetAutoIncrement();
-		}
-		else{
-			throw new RuntimeException("Auto-Increment not reset");
-		}
-	}
 	
+	/**
+	 * Reset the auto-increment counter of the table being tested
+	 * in the database. This method is invoked after all test
+	 * cases have completed.
+	 */
+	@AfterClass
+	public static void resetAutoIncrement(){
+		ApplicationContext context = AppContext.getApplicationContext();
+		HibernateTestUtil testUtil = context.getBean(HibernateTestUtil.class, "hibernateTestUtil");
+		testUtil.resetStudentAutoIncrement();
+	}
 }

@@ -5,8 +5,51 @@ import java.util.TreeSet;
 
 import junit.framework.TestCase;
 
+/**
+ * <tt>JUnit</tt> test case for the <tt>Student</tt>
+ * entity. It runs four tests on the integrity of
+ * the class.
+ * <p>
+ * <b>Constructor:</b> Test both constructors in this class,
+ * and ensure that both produce non-null objects and that
+ * any arguments are set to the appropriate fields.
+ * <p>
+ * <b>Fields:</b> Test all setters to ensure that they
+ * all assign their values to the appropriate fields.
+ * <p>
+ * <b>Equals:</b> Test the overriden equals() method
+ * for comparisons between <tt>Student</tt> objects.
+ * <p>
+ * <b>CompareTo:</b> Test the overriden compareTo() method
+ * and more comparisons between <tt>Student</tt> objects.
+ * 
+ * @author craig
+ * @version 1.0
+ */
 public class StudentTest extends TestCase {
 
+	/**
+	 * Test both constructors in this class,
+	 * and ensure that both produce non-null objects and that
+	 * any arguments are set to the appropriate fields.
+	 */
+	public void testConstructor(){
+		Student student = new Student();
+		assertNotNull(student);
+		
+		student = new Student("FirstName", "LastName", LocalDate.of(1900, 1, 1), 'U', 1);
+		assertNotNull(student);
+		assertEquals(student.getFirstName(), "FirstName");
+		assertEquals(student.getLastName(), "LastName");
+		assertEquals(student.getBirthDate(), LocalDate.of(1900, 1, 1));
+		assertEquals(student.getGender(), 'U');
+		assertEquals(student.getGrade(), 1);
+	}
+	
+	/**
+	 * Test all setters to ensure that they
+	 * all assign their values to the appropriate fields.
+	 */
 	public void testFields(){
 		Student student = new Student();
 		assertNotNull(student);
@@ -25,6 +68,10 @@ public class StudentTest extends TestCase {
 		assertEquals(student.getGrade(), 5);
 	}
 	
+	/**
+	 * Test the overriden equals() method
+	 * for comparisons between <tt>Student</tt> objects.
+	 */
 	public void testEquals(){
 		Object o = new Object();
 		
@@ -42,6 +89,10 @@ public class StudentTest extends TestCase {
 		assertTrue(student1.equals(student3));
 	}
 	
+	/**
+	 * Test the overriden compareTo() method
+	 * and more comparisons between <tt>Student</tt> objects.
+	 */
 	public void testCompareTo(){
 		Student student1 = new Student();
 		student1.setStudentId(1);

@@ -121,6 +121,7 @@ public class HibernateCourseDao implements CourseDao {
 		sessionFactory.getCurrentSession().delete(course);
 	}
 	
+	//TODO remove this
 	/**
 	 * Reset the auto-increment counter on the database table
 	 * for the <tt>Course</tt> class. This will set the counter

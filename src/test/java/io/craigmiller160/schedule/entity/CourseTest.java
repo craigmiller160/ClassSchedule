@@ -4,11 +4,52 @@ import java.util.TreeSet;
 
 import junit.framework.TestCase;
 
+/**
+ * <tt>JUnit</tt> test case for the <tt>Course</tt>
+ * entity. It runs four tests on the integrity of
+ * the class.
+ * <p>
+ * <b>Constructor:</b> Test both constructors in this class,
+ * and ensure that both produce non-null objects and that
+ * any arguments are set to the appropriate fields.
+ * <p>
+ * <b>Fields:</b> Test all setters to ensure that they
+ * all assign their values to the appropriate fields.
+ * <p>
+ * <b>Equals:</b> Test the overriden equals() method
+ * for comparisons between <tt>Course</tt> objects.
+ * <p>
+ * <b>CompareTo:</b> Test the overriden compareTo() method
+ * and more comparisons between <tt>Course</tt> objects.
+ * 
+ * @author craig
+ * @version 1.0
+ */
 public class CourseTest extends TestCase {
 
-	public void testFields(){
+	/**
+	 * Test both constructors in this class,
+	 * and ensure that both produce non-null objects and that
+	 * any arguments are set to the appropriate fields.
+	 */
+	public void testConstructor(){
 		Course course = new Course();
 		assertNotNull(course);
+		
+		course = new Course("Name", "Teacher", "Subject", 1);
+		assertNotNull(course);
+		assertEquals(course.getCourseName(), "Name");
+		assertEquals(course.getSubject(), "Subject");
+		assertEquals(course.getTeacherLastName(), "Teacher");
+		assertEquals(course.getPeriod(), 1);
+	}
+	
+	/**
+	 * Test all setters to ensure that they
+	 * all assign their values to the appropriate fields.
+	 */
+	public void testFields(){
+		Course course = new Course();
 		course.setCourseId(1);
 		course.setCourseName("Algebra");
 		course.setSubject("Math");
@@ -22,6 +63,10 @@ public class CourseTest extends TestCase {
 		assertEquals(course.getPeriod(), 5);
 	}
 	
+	/**
+	 * Test the overriden equals() method
+	 * for comparisons between <tt>Course</tt> objects.
+	 */
 	public void testEquals(){
 		Object o = new Object();
 		
@@ -39,6 +84,10 @@ public class CourseTest extends TestCase {
 		assertTrue(course1.equals(course3));
 	}
 	
+	/**
+	 * Test the overriden compareTo() method
+	 * and more comparisons between <tt>Course</tt> objects.
+	 */
 	public void testCompareTo(){
 		Course course1 = new Course();
 		course1.setCourseId(1);
