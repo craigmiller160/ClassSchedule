@@ -1,8 +1,11 @@
 package io.craigmiller160.schedule.entity;
 
-import java.util.TreeSet;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
-import junit.framework.TestCase;
+import java.util.TreeSet;
 
 /**
  * <tt>JUnit</tt> test case for the <tt>Course</tt>
@@ -25,7 +28,7 @@ import junit.framework.TestCase;
  * @author craig
  * @version 1.0
  */
-public class CourseTest extends TestCase {
+public class CourseTest{
 
 	/**
 	 * Test both constructors in this class,

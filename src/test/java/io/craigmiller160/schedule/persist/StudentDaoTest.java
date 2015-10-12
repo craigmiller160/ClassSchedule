@@ -1,5 +1,10 @@
 package io.craigmiller160.schedule.persist;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -14,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import io.craigmiller160.schedule.context.AppContext;
 import io.craigmiller160.schedule.entity.Student;
-import junit.framework.TestCase;
 
 /**
  * <tt>JUnit</tt> test case for the <tt>StudentDao</tt> class.
@@ -42,7 +46,7 @@ import junit.framework.TestCase;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration ({"classpath:/test-context.xml"})
-public class StudentDaoTest extends TestCase{
+public class StudentDaoTest{
 
 	/*
 	 * This class uses Spring annotations, rather than purely
