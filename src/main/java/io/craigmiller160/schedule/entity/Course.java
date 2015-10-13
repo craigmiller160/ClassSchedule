@@ -1,5 +1,6 @@
 package io.craigmiller160.schedule.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -64,7 +65,7 @@ public class Course implements Comparable<Course>{
 	 * The list of students taking this course.
 	 */
 	@ManyToMany (cascade=CascadeType.ALL, mappedBy="courses") //TODO not sure if cascading is appropriate here or not
-	private List<Student> students;
+	private List<Student> students = new ArrayList<>();
 	//TODO might want to change this to be a set... debating this
 	
 	/**
@@ -213,7 +214,7 @@ public class Course implements Comparable<Course>{
 	 * not properly instantiated.
 	 */
 	public boolean addStudent(Student student){
-		student.addCourse(this);
+		//TODO can't put add operation here because endless stackoverflow loop
 		return students.add(student);
 	}
 	

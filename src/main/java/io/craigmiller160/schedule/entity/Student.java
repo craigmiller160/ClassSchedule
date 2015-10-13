@@ -214,7 +214,7 @@ public class Student implements Comparable<Student>{
 	 * not properly instantiated.
 	 */
 	public boolean addCourse(Course course){
-		course.addStudent(this);
+		//TODO can't put add operation here because endless stackoverflow loop
 		return courses.add(course);
 	}
 	

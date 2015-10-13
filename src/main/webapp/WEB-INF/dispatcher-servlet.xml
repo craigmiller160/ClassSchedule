@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<!-- CONTEXT CONFIGURATION FOR THE DISPATCHER SERVLET -->
+	
+	<!-- Import the data/transaction beans from their separate configuration file -->
+	<import resource="classpath:/data-context.xml"/>
+
+	<!-- MessageSource for loading locale-specific messages from resource bundles -->
+	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename" value="messages"/>
+	</bean>
+	
+	<bean id="/welcome.html" class="io.craigmiller160.schedule.web.WelcomeController"/>
+	
+	<bean id="/login.html" class="io.craigmiller160.schedule.web.LoginController"/>
+	
+	<bean id="contextAttributeExporter" class="org.springframework.web.context.support.ServletContextAttributeExporter">
+		<property name="attributes">
+			<map>
+				<entry key="scheduleService" value-ref="scheduleService"/>
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+		<property name="prefix" value="/pages/"/>
+		<property name="suffix" value=".jsp"/>
+	</bean>
+
+</beans>
