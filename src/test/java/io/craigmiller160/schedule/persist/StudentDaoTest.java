@@ -193,6 +193,17 @@ public class StudentDaoTest{
 		assertTrue("Students list greater than endIndex", students.size() <= 8);
 	}
 	
+	@Test
+	@Transactional
+	public void testCountOperation(){
+		Student student = new Student();
+		setStudent1(student);
+		studentDao.insertStudent(student);
+		
+		long count = studentDao.getStudentCount();
+		assertTrue(count > 0);
+	}
+	
 	/**
 	 * Reset the auto-increment counter of the table being tested
 	 * in the database. This method is invoked after all test

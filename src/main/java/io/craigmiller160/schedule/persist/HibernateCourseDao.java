@@ -169,4 +169,10 @@ public class HibernateCourseDao implements CourseDao {
 		sessionFactory.close();
 	}
 
+	@Override
+	public long getCourseCount() {
+		Session session = sessionFactory.getCurrentSession();
+		return (Long) session.createQuery("select count(*) from Course").uniqueResult();
+	}
+
 }

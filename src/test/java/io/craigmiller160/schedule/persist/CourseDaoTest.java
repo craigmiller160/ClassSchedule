@@ -188,6 +188,18 @@ public class CourseDaoTest{
 		assertTrue("Courses list greater than endIndex", courses.size() <= 8);
 	}
 	
+	//TODO document this
+	@Test
+	@Transactional
+	public void testCountOperation(){
+		Course course = new Course();
+		setCourse1(course);
+		courseDao.insertCourse(course);
+		
+		long count = courseDao.getCourseCount();
+		assertTrue(count > 0);
+	}
+	
 	/**
 	 * Reset the auto-increment counter of the table being tested
 	 * in the database. This method is invoked after all test

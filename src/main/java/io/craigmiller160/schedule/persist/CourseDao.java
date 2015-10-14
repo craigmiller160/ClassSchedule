@@ -77,4 +77,7 @@ public interface CourseDao {
 	 */
 	void deleteCourse(Course course);
 	
+	//TODO document this
+	long getCourseCount();
+	
 }

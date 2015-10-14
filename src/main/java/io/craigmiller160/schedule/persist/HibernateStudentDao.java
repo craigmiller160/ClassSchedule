@@ -176,4 +176,11 @@ public class HibernateStudentDao implements StudentDao {
 		return query.list();
 	}
 
+	@Override
+	public long getStudentCount() {
+		Session session = sessionFactory.getCurrentSession();
+		return (Long) session.createQuery("select count(*) from Course").uniqueResult();
+		
+	}
+
 }

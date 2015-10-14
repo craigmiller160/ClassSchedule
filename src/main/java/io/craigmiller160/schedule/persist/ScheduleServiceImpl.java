@@ -200,6 +200,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 		return courseDao.getCourse(courseId);
 	}
 	
+	//TODO delete this
 	/**
 	 * Reset the auto-increment counter for both DAOs. This will set the counter
 	 * generating ids to the next highest number based on the
@@ -226,6 +227,41 @@ public class ScheduleServiceImpl implements ScheduleService {
 			throw new UnsupportedOperationException(
 					"Only Hibernate DAO classes supported");
 		}
+	}
+
+	@Transactional
+	@Override
+	public <T> List<?> getEntitiesInRange(Class<T> entityType, 
+			int startIndex, int endIndex) {
+		List<?> resultList = null;
+		if(entityType.equals(Student.class)){
+			resultList = studentDao.getStudentsInRange(startIndex, endIndex);
+		}
+		else if(entityType.equals(Course.class)){
+			resultList = courseDao.getCoursesInRange(startIndex, endIndex);
+		}
+		else{
+			throw new IllegalArgumentException(entityType + " is not a valid Entity");
+		}
+		
+		return resultList;
+	}
+	
+	@Transactional
+	@Override
+	public <T> long getEntityCount(Class<T> entityType){
+		long result = 0;
+		if(entityType.equals(Student.class)){
+			result = studentDao.getStudentCount();
+		}
+		else if(entityType.equals(Course.class)){
+			result = courseDao.getCourseCount();
+		}
+		else{
+			throw new IllegalArgumentException(entityType + " is not a valid Entity");
+		}
+		
+		return result;
 	}
 
 }

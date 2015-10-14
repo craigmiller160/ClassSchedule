@@ -79,4 +79,7 @@ public interface StudentDao {
 	 */
 	void deleteStudent(Student student);
 	
+	//TODO document this
+	long getStudentCount();
+	
 }

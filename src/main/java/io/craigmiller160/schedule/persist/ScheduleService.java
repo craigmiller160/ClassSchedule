@@ -101,4 +101,10 @@ public interface ScheduleService {
 	 */
 	Course getCourse(int courseId);
 	
+	//TODO document this, also possibly change whole class to this style
+	<T> List<?> getEntitiesInRange(Class<T> entityType, int startIndex, int endIndex);
+	
+	//TODO document this
+	<T> long getEntityCount(Class<T> entityType);
+	
 }
