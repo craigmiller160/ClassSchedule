@@ -3,6 +3,8 @@ package io.craigmiller160.schedule.persist;
 import java.util.List;
 
 import org.hibernate.FetchMode;
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
@@ -108,6 +110,15 @@ public class HibernateCourseDao implements CourseDao {
 		Session session = sessionFactory.getCurrentSession();
 		return session.createCriteria(Course.class)
 				.list();
+	}
+	
+	@Override
+	public List<Course> getCoursesInRange(int startIndex, int endIndex){
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.getNamedQuery("coursesByIndexRangeProcedure")
+				.setInteger("startIndex", startIndex)
+				.setInteger("endIndex", endIndex);
+		return query.list();
 	}
 
 	/**

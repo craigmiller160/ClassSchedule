@@ -56,6 +56,19 @@ public interface CourseDao {
 	List<Course> getAllCourses();
 	
 	/**
+	 * Get a list of all courses in the database between the
+	 * range of indexes specified.
+	 * <p>
+	 * <b>NOTE:</b> The indexes refer to row numbers, not
+	 * primary key/Id numbers.
+	 * 
+	 * @param startIndex the starting index of the range.
+	 * @param endIndex the ending index of the range.
+	 * @return a list of courses within the range of indexes.
+	 */
+	List<Course> getCoursesInRange(int startIndex, int endIndex);
+	
+	/**
 	 * Delete a course from the database.
 	 * 
 	 * @param course the course to delete.

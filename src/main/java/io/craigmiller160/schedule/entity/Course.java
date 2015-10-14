@@ -12,6 +12,17 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.NamedNativeQueries;
+import org.hibernate.annotations.NamedNativeQuery;
+
+//TODO document this... possible move it to a better location too
+@NamedNativeQueries({ 
+	@NamedNativeQuery(
+			name="coursesByIndexRangeProcedure",
+			query="call courses_by_index_range (:startIndex, :endIndex)",
+			resultClass=Course.class)
+	})
+
 /**
  * An entity that defines a course that students can take. It
  * contains the attributes defining the course, and a list of

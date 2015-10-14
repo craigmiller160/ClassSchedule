@@ -18,6 +18,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import io.craigmiller160.schedule.context.AppContext;
+import io.craigmiller160.schedule.entity.Course;
 import io.craigmiller160.schedule.entity.Student;
 
 /**
@@ -176,6 +177,20 @@ public class StudentDaoTest{
 		assertNotNull("Students list is null", students);
 		assertTrue("Students list less than 1", students.size() >= 1);
 		assertTrue("Students list doesn't contain student", students.contains(student));
+	}
+	
+	//TODO document this
+	@Test
+	@Transactional
+	public void testListRangeOperation(){
+		Student student = new Student();
+		setStudent1(student);
+		studentDao.insertStudent(student);
+		
+		List<Student> students = studentDao.getStudentsInRange(1, 8);
+		assertNotNull("Students list is null", students);
+		assertTrue("Students list less than startIndex", students.size() >= 1);
+		assertTrue("Students list greater than endIndex", students.size() <= 8);
 	}
 	
 	/**

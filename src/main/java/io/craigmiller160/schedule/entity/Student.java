@@ -16,7 +16,18 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.NamedNativeQueries;
+import org.hibernate.annotations.NamedNativeQuery;
+
 import io.craigmiller160.schedule.util.LocalDateConverter;
+
+//TODO document this... possibly move it to a better location too
+@NamedNativeQueries({ 
+	@NamedNativeQuery(
+			name="studentsByIndexRangeProcedure",
+			query="call students_by_index_range (:startIndex, :endIndex)",
+			resultClass=Student.class)
+	})
 
 /**
  * An entity that defines a student taking courses. It contains

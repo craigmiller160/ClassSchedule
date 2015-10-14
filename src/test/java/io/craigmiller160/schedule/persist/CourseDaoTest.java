@@ -174,6 +174,20 @@ public class CourseDaoTest{
 		assertTrue("Courses list doesn't contain course", courses.contains(course));
 	}
 	
+	//TODO document this
+	@Test
+	@Transactional
+	public void testListRangeOperation(){
+		Course course = new Course();
+		setCourse1(course);
+		courseDao.insertCourse(course);
+		
+		List<Course> courses = courseDao.getCoursesInRange(1, 8);
+		assertNotNull("Courses list is null", courses);
+		assertTrue("Courses list less than startIndex", courses.size() >= 1);
+		assertTrue("Courses list greater than endIndex", courses.size() <= 8);
+	}
+	
 	/**
 	 * Reset the auto-increment counter of the table being tested
 	 * in the database. This method is invoked after all test

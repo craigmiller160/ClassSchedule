@@ -3,6 +3,7 @@ package io.craigmiller160.schedule.persist;
 import java.util.List;
 
 import org.hibernate.FetchMode;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
@@ -164,6 +165,15 @@ public class HibernateStudentDao implements StudentDao {
 	 */
 	public void closeSessionFactory(){
 		sessionFactory.close();
+	}
+
+	@Override
+	public List<Student> getStudentsInRange(int startIndex, int endIndex) {
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.getNamedQuery("studentsByIndexRangeProcedure")
+				.setInteger("startIndex", startIndex)
+				.setInteger("endIndex", endIndex);
+		return query.list();
 	}
 
 }

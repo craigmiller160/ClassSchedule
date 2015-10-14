@@ -13,6 +13,8 @@ import io.craigmiller160.schedule.entity.Student;
  */
 public interface StudentDao {
 
+	//TODO test case will need to be expanded for new sublist queries
+	
 	/**
 	 * Insert a new student into the database. The student
 	 * parameter cannot have the same ID as a student
@@ -47,13 +49,26 @@ public interface StudentDao {
 	Student getStudent(int studentId);
 	
 	/**
-	 * Get a list of all student in the database.
+	 * Get a list of all students in the database.
 	 * 
 	 * @return a list of all students in the database.
 	 * @throws RuntimeException a subclass of <tt>RuntimeException</tt>
 	 * is thrown if this operation fails in some way.
 	 */
 	List<Student> getAllStudents();
+	
+	/**
+	 * Get a list of all students in the database between the
+	 * range of indexes specified.
+	 * <p>
+	 * <b>NOTE:</b> The indexes refer to row numbers, not
+	 * primary key/Id numbers.
+	 * 
+	 * @param startIndex the starting index of the range.
+	 * @param endIndex the ending index of the range.
+	 * @return a list of students within the range of indexes.
+	 */
+	List<Student> getStudentsInRange(int startIndex, int endIndex);
 	
 	/**
 	 * Delete a student from the database.
